@@ -57,43 +57,12 @@ that I can buy, sell, and trade comics.
 
 ### Questions?
 
-For any questions, please contact us with the information below:
+For any questions, please contact me:
 
-
-1- Chris Mattix
-
-Christopher.mattix@gmail.com
-
-[LinkedIn Profile](https://www.linkedin.com/in/christopher-j-mattix-4773b736/)
-
-[Github Profile](https://github.com/BeardoMattix)
-
-
-
-2- James Simpson
-
-Simpsonjd12@gmail.com
-
-[LinkedIn Profile](https://www.linkedin.com/in/james-simpson-2ab668194/)
-
-[Github Profile](https://github.com/simpsonjd12)
-
-
-
-3- Jason Barrera
-
-jason1287712@gmail.com
-
-[LinkedIn Profile](https://www.linkedin.com/in/jason-barrera-ramirez-b2a473204/)
-
-[Github Profile](https://github.com/jbramirez03)
-
-
-
-4- Qabas Al ani
+**Qabas Al Ani**
 
 qabasalani1@gmail.com
 
 [LinkedIn Profile](https://www.linkedin.com/in/qabas-al-ani-7b858863/)
 
-[Github Profile](https://github.com/https://github.com/Qabas-al-ani)
+[GitHub Profile](https://github.com/Qabas-al-ani)
