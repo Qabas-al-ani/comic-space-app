@@ -60,7 +60,16 @@ const cardCaptionStyle = {
 const cardCaptionTitle = { fontSize: "1.1rem", margin: 0, color: "#fff" };
 const cardCaptionSub = { fontSize: "0.75rem", margin: "4px 0 0", color: "rgba(255,255,255,0.9)" };
 
-const apiBase = ""; // proxied to server in dev (see client package.json proxy)
+// In production, REST API (e.g. /api/superhero/search) lives on Render; in dev, use proxy
+const graphqlUri =
+  process.env.REACT_APP_GRAPHQL_URI ||
+  (process.env.NODE_ENV === "production"
+    ? "https://comic-space-api.onrender.com/graphql"
+    : "http://localhost:3001/graphql");
+const apiBase =
+  process.env.NODE_ENV === "production"
+    ? graphqlUri.replace(/\/graphql\/?$/, "")
+    : "";
 
 const Tester = () => {
   const [character, setCharacter] = useState("");
