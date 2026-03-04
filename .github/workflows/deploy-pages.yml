@@ -40,13 +40,13 @@ jobs:
           cd server && npm install --legacy-peer-deps
           cd ../client && npm install --legacy-peer-deps
 
-            - name: Build client
+      - name: Build client
         run: cd client && npm run build
         env:
           CI: false
           REACT_APP_GRAPHQL_URI: ${{ secrets.REACT_APP_GRAPHQL_URI || 'https://your-app.onrender.com/graphql' }}
           REACT_APP_GRAPHQL_WS_URI: ${{ secrets.REACT_APP_GRAPHQL_WS_URI || 'wss://your-app.onrender.com/graphql' }}
-          
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
