@@ -113,6 +113,7 @@
 // });
 import express from "express";
 import path from "path";
+import cors from "cors";
 import { ApolloServer } from "apollo-server-express";
 import db from "./config/connection.js";
 import typeDefs from "./typeDefs/schema.js";
@@ -131,6 +132,22 @@ const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Allow GitHub Pages and same-origin (Render) so login/GraphQL work from the deployed frontend
+const allowedOrigins = [
+  "https://qabas-al-ani.github.io",
+  "http://localhost:3000",
+  /^https:\/\/comic-space-api\.onrender\.com$/,
+];
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      if (!origin || allowedOrigins.some((o) => (typeof o === "string" ? o === origin : o.test(origin)))) return cb(null, true);
+      cb(null, false);
+    },
+    credentials: true,
+  })
+);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
