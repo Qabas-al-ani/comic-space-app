@@ -27,20 +27,25 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 //     : 'http://localhost:3001/graphql',
 // });
 
-// Use localhost for the GraphQL API in development, and Heroku in production
+// GraphQL API: env vars in CI (GitHub Actions), Render in production, localhost in dev
+const graphqlHttp =
+  process.env.REACT_APP_GRAPHQL_URI ||
+  (process.env.NODE_ENV === "production"
+    ? "https://comic-space-api.onrender.com/graphql"
+    : "http://localhost:3001/graphql");
+const graphqlWs =
+  process.env.REACT_APP_GRAPHQL_WS_URI ||
+  (process.env.NODE_ENV === "production"
+    ? "wss://comic-space-api.onrender.com/graphql"
+    : "ws://localhost:3001/graphql");
+
 const wsLink = new WebSocketLink({
-  uri:
-    process.env.NODE_ENV === "production"
-      ? "wss://young-hollows-20691.herokuapp.com/graphql"
-      : "ws://localhost:3001/graphql",
+  uri: graphqlWs,
   options: { reconnect: true },
 });
 
 const httpLink = new HttpLink({
-  uri:
-    process.env.NODE_ENV === "production"
-      ? "https://young-hollows-20691.herokuapp.com/graphql"
-      : "http://localhost:3001/graphql",
+  uri: graphqlHttp,
 });
 
 const authLink = setContext((_, { headers }) => {

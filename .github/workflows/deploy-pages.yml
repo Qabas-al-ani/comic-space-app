@@ -44,8 +44,8 @@ jobs:
         run: cd client && npm run build
         env:
           CI: false
-          REACT_APP_GRAPHQL_URI: ${{ secrets.REACT_APP_GRAPHQL_URI || 'https://your-app.onrender.com/graphql' }}
-          REACT_APP_GRAPHQL_WS_URI: ${{ secrets.REACT_APP_GRAPHQL_WS_URI || 'wss://your-app.onrender.com/graphql' }}
+          REACT_APP_GRAPHQL_URI: ${{ secrets.REACT_APP_GRAPHQL_URI || 'https://comic-space-api.onrender.com/graphql' }}
+          REACT_APP_GRAPHQL_WS_URI: ${{ secrets.REACT_APP_GRAPHQL_WS_URI || 'wss://comic-space-api.onrender.com/graphql' }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
