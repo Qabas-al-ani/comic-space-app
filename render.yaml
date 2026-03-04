@@ -1,0 +1,34 @@
+# Render Blueprint: deploy Comic-Space API (and optional full app) on Render.
+# Docs: https://render.com/docs/blueprint-spec
+#
+# 1. Create a MongoDB database (e.g. MongoDB Atlas free tier) and set MONGODB_URI.
+# 2. In Render Dashboard, New > Blueprint > connect this repo and add env var MONGODB_URI.
+# 3. After deploy, set your frontend (e.g. GitHub Pages) to use this service URL for the API.
+
+services:
+  - type: web
+    name: comic-space-api
+    runtime: node
+    region: oregon
+
+    # Build: install deps and build the React client so the server can serve it
+    buildCommand: |
+      npm install
+      cd server && npm install --legacy-peer-deps
+      cd ../client && npm install --legacy-peer-deps && npm run build
+
+    # Start the Node server (serves API + client/build in production)
+    startCommand: node server/server.js
+
+    # Root of the repo
+    rootDir: .
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "18"
+      - key: PORT
+        generateValue: true
+      - key: MONGODB_URI
+        sync: false  # Set in Render Dashboard: your MongoDB Atlas connection string

@@ -1,0 +1,68 @@
+# Deploy React build to GitHub Pages (for CV live demo link).
+# Set Repository secrets: REACT_APP_GRAPHQL_URI, REACT_APP_GRAPHQL_WS_URI (your Render API URL).
+# In repo Settings > Pages: Source = "GitHub Actions".
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      # Replace with your Render backend URL after deploying the API (no trailing slash)
+      REACT_APP_GRAPHQL_URI: ${{ secrets.REACT_APP_GRAPHQL_URI }}
+      REACT_APP_GRAPHQL_WS_URI: ${{ secrets.REACT_APP_GRAPHQL_WS_URI }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          npm install
+          cd server && npm install --legacy-peer-deps
+          cd ../client && npm install --legacy-peer-deps
+
+      - name: Build client
+        run: cd client && npm run build
+        env:
+          # Fallback if secrets not set (frontend will still load; API calls will fail until you set secrets)
+          REACT_APP_GRAPHQL_URI: ${{ secrets.REACT_APP_GRAPHQL_URI || 'https://your-app.onrender.com/graphql' }}
+          REACT_APP_GRAPHQL_WS_URI: ${{ secrets.REACT_APP_GRAPHQL_WS_URI || 'wss://your-app.onrender.com/graphql' }}
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: client/build
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
