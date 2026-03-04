@@ -31,14 +31,15 @@ class AuthService {
         // Saves user token to localStorage
         localStorage.setItem('id_token', idToken);
 
-        window.location.assign('/');
+        // Use app base path so GitHub Pages (e.g. /comic-space-app/) doesn't redirect to 404
+        window.location.assign((process.env.PUBLIC_URL || '') + '/#/');
     }
 
     logout() {
         // Clear user token and profile data from localStorage
         localStorage.removeItem('id_token');
         // this will reload the page and reset the state of the application
-        window.location.assign('/');
+        window.location.assign((process.env.PUBLIC_URL || '') + '/#/');
     }
 }
 
