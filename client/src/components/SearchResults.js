@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { SAVE_COMIC, WISH_COMIC } from "../utils/mutations";
 import Auth from "../utils/auth";
@@ -77,6 +77,7 @@ const Tester = () => {
   let buttons = [];
   const [test, setTest] = useState([]);
   const alert = useAlert();
+  const searchErrorShownRef = useRef(false);
   const [autos, setAutos] = useState([]);
   let startsWith = [];
 
@@ -94,6 +95,11 @@ const Tester = () => {
       setWishlist([...userData.wishlist]);
     }
   }, [userData]);
+
+  // Allow showing the search error again after the user changes the query
+  React.useEffect(() => {
+    searchErrorShownRef.current = false;
+  }, [character]);
 
   const handleComicSave = async (comicId) => {
     const comicToSave = comics.find((comic) => comic.comicId === comicId);
@@ -214,9 +220,13 @@ const Tester = () => {
     try {
       const response = await search();
       if (response === undefined) {
-        alert.show("Search failed. Try again.");
+        if (!searchErrorShownRef.current) {
+          searchErrorShownRef.current = true;
+          alert.show("Search failed. Try again.");
+        }
         return;
       }
+      searchErrorShownRef.current = false; // reset so next failure can show once
       const total = response?.data?.data?.total ?? 0;
       const results = response?.data?.data?.results ?? [];
       if (total === 0 || results.length === 0) {
@@ -231,8 +241,11 @@ const Tester = () => {
       setResponse(response);
       buttons = [];
     } catch (err) {
-      const msg = err.response?.data?.error || err.message || "Search failed.";
-      alert.show(msg);
+      if (!searchErrorShownRef.current) {
+        searchErrorShownRef.current = true;
+        const msg = err.response?.data?.error || err.message || "Search failed.";
+        alert.show(msg);
+      }
       setComics([]);
     }
   };
