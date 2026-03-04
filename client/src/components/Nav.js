@@ -117,7 +117,7 @@ export default function PrimarySearchAppBar() {
         sx: {
           backgroundColor: "#000000",
           boxShadow: "0 0 20px white, 0 0 40px rgba(255,255,255,0.25)",
-          "& .MuiMenuItem-root, & p": { color: "#E50914" },
+          "& .MuiMenuItem-root, & p": { color: "#ffffff" },
         },
       }}
     >
@@ -158,7 +158,7 @@ export default function PrimarySearchAppBar() {
           component={Link}
           to="/"
         >
-          Logout
+          Log Out
         </MenuItem>
       )}
     </Menu>
@@ -184,7 +184,7 @@ export default function PrimarySearchAppBar() {
         sx: {
           backgroundColor: "#000000",
           boxShadow: "0 0 20px white, 0 0 40px rgba(255,255,255,0.25)",
-          "& .MuiMenuItem-root, & p": { color: "#E50914" },
+          "& .MuiMenuItem-root, & p": { color: "#ffffff" },
         },
       }}
     >
